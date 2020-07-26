@@ -4,6 +4,6 @@
     "lib": ["ES2017"],
     "module": "System",
     "noUnusedLocals": true,
-    "outFile": "temp_compiled.js"
+    "outFile": "jas_ss_lib.js"
   },
 }

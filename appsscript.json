@@ -12,5 +12,8 @@
   "executionApi": {
     "access": "ANYONE"
   },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/spreadsheets"
+  ],
   "runtimeVersion": "V8"
 }
