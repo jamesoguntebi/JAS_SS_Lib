@@ -1,0 +1,1 @@
+# SpreadSheet ibrary for James's Apps Script projects

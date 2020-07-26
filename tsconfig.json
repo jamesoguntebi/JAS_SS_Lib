@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "lib": ["ES2017"],
+    "module": "System",
+    "noUnusedLocals": true,
+    "outFile": "temp_compiled.js"
+  },
+}
