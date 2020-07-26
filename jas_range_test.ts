@@ -1,5 +1,5 @@
-import JasRange, { CellData } from './jas_range';
-import JasSpreadsheet from './jas_spreadsheet';
+import { JasRange, CellData } from './jas_range';
+import { JasSpreadsheet } from './jas_spreadsheet';
 import { JASLib } from "jas_api"
 
 type Range = GoogleAppsScript.Spreadsheet.Range;

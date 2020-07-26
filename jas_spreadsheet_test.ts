@@ -1,4 +1,4 @@
-import JasSpreadsheet from './jas_spreadsheet';
+import { JasSpreadsheet } from './jas_spreadsheet';
 import { JASLib } from "jas_api"
 
 type Sheet = GoogleAppsScript.Spreadsheet.Sheet;

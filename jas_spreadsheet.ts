@@ -1,7 +1,7 @@
 type Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 type Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 
-export default class JasSpreadsheet {
+export class JasSpreadsheet {
   static getSpreadsheet(spreadsheetId: string): Spreadsheet {
     return SpreadsheetApp.openById(spreadsheetId);
   }

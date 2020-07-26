@@ -1,6 +1,6 @@
 type Range = GoogleAppsScript.Spreadsheet.Range;
 
-export default class JasRange {
+export class JasRange {
   /**
    * Returns A1 notation for a range, including the sheet name, with fixed row
    * and fixed column.
