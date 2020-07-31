@@ -55,7 +55,22 @@ export class CellData {
     return this.data as number;
   }
 
+  date(includeTime = false): Date {
+    if (this.isBlank() || !CellData.isDateValue(this.data)) {
+      throw new Error(`Expected date in cell ${this.getCellString()}`);
+    }
+    const date = this.data as Date;
+    if (!includeTime) date.setHours(0, 0, 0, 0);
+    return date;
+
+  }
+
   private getCellString(): string {
     return `${this.range.getSheet().getName()}!${this.range.getA1Notation()}`;
+  }
+
+  private static isDateValue(value: any): boolean {
+    return Object.prototype.toString.call(value) === '[object Date]' &&
+        !isNaN(value.getTime());
   }
 }

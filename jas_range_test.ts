@@ -61,6 +61,23 @@ export default class JasRangeTest implements JASLib.Test {
         t.expect(new CellData(defaultRange).stringArray()).toEqual(
             ['apples', 'bananas', 'carrots', 'dragonfruit', 'edameme']);
       });
+
+      t.describe('date', () => {
+        t.it('returns a valid date', () => {
+          defaultRange.setValue(new Date());
+          t.expect(() => new CellData(defaultRange).date()).not.toThrow();
+        });
+
+        t.it('throws for non date', () => {
+          defaultRange.setValue(30);
+          t.expect(() => new CellData(defaultRange).date()).toThrow();
+        });
+
+        t.it('throws for date string', () => {
+          defaultRange.setValue(String(new Date()));
+          t.expect(() => new CellData(defaultRange).date()).toThrow();
+        });
+      });
     });
   }
 }
