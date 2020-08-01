@@ -32,7 +32,10 @@ export class CellData {
     return this.range.isBlank();
   }
 
-  string(): string {
+  string(defaultValue?: string): string {
+    if (this.isBlank() && defaultValue !== undefined) {
+      return defaultValue;
+    }
     if (this.isBlank() || typeof this.data !== 'string') {
       throw new Error(`Expected string in cell ${this.getCellString()}`);
     }
@@ -48,7 +51,10 @@ export class CellData {
         this.string().split(/,|\n/).map(s => s.trim()).filter(s => !!s);
   }
 
-  number(): number {
+  number(defaultValue?: number): number {
+    if (this.isBlank() && defaultValue !== undefined) {
+      return defaultValue;
+    }
     if (this.isBlank() || typeof this.data !== 'number') {
       throw new Error(`Expected number in cell ${this.getCellString()}`);
     }

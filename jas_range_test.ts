@@ -55,6 +55,12 @@ export default class JasRangeTest implements JASLib.Test {
             .toEqual(undefined);
       });
 
+      t.it('falls back to default value', () => {
+        defaultRange.clear({contentsOnly: true});
+        t.expect(new CellData(defaultRange).string('hi')).toEqual('hi');
+        t.expect(new CellData(defaultRange).number(10)).toEqual(10);
+      });
+
       t.it('finds string array', () => {
         defaultRange.setValue(
             ',,apples,bananas\ncarrots  ,,\n\ndragonfruit, edameme');
