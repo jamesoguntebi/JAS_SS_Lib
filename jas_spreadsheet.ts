@@ -54,8 +54,9 @@ export class JasSpreadsheet {
           matches.map(m => m.rowLabel).join(', ')}' matched query '${name}'`);
     }
     if (matches.length === 0) {
-      throw new Error(`Expected a row with a name including '${name}' in ` + 
-          `sheet '${sheet.getName()}'. ` + 
+      throw new Error(
+          `Expected a row with a name including '${name}' in ` +
+          `sheet '${sheet.getName()}'. ` +
           `Row labels: ${rowLabels.join(', ')}`);
     }
     return matches[0].row;
@@ -83,11 +84,13 @@ export class JasSpreadsheet {
 
     if (matches.length > 1) {
       throw new Error(`Multiple columns '${
-          matches.map(m => m.columnLabel).join(', ')}' matched query '${name}'`);
+          matches.map(m => m.columnLabel).join(', ')}' matched query '${
+          name}'`);
     }
     if (matches.length === 0) {
-      throw new Error(`Expected a column with a name including '${name}' in ` + 
-          `sheet '${sheet.getName()}'. ` + 
+      throw new Error(
+          `Expected a column with a name including '${name}' in ` +
+          `sheet '${sheet.getName()}'. ` +
           `Column labels: ${columnLabels.join(', ')}`);
     }
 

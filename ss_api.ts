@@ -3,6 +3,6 @@
 // on this lib. E.g.
 // https://github.com/jamesoguntebi/AS_LeaseLib/blob/master/appsscript.json
 
-import * as SSLib from "apihelper";
+import * as SSLib from 'apihelper';
 
 export {SSLib};

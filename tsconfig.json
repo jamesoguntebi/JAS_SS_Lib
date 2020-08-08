@@ -5,6 +5,10 @@
     "lib": ["ES2017"],
     "module": "System",
     "noUnusedLocals": true,
-    "outFile": "ss_lib.js"
+    "outFile": "ss_lib.js",
+    "skipLibCheck": true
   },
+  "exclude": [
+    "ss_lib.d.ts"
+  ]
 }

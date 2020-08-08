@@ -1,5 +1,6 @@
-import { JasSpreadsheet } from './jas_spreadsheet';
-import { JASLib } from "jas_api"
+import {JASLib} from 'jas_api'
+
+import {JasSpreadsheet} from './jas_spreadsheet';
 
 type Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
@@ -13,7 +14,7 @@ export default class JasSpreadsheetTest implements JASLib.Test {
   run(t: JASLib.Tester) {
     const findSheet = (sheetName: string) => {
       return JasSpreadsheet.findSheet(sheetName, this.spreadsheetId);
-    }
+    };
 
     t.describe('findSheet', () => {
       t.it('finds present sheet', () => {
@@ -35,7 +36,7 @@ export default class JasSpreadsheetTest implements JASLib.Test {
 
         t.beforeEach(() => {
           newSheet = spreadsheet.insertSheet();
-          newSheet.setName('Balad'); // To share prefix with 'Balance' sheet.
+          newSheet.setName('Balad');  // To share prefix with 'Balance' sheet.
         });
 
         t.afterEach(() => {

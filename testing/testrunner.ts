@@ -1,8 +1,9 @@
-import JasRangeTest from "../jas_range_test";
-import JasSpreadsheetTest from "../jas_spreadsheet_test";
-import { JASLib } from "jas_api"
+import {JASLib} from 'jas_api'
 
-export function runTests(params: TestRunnerOptions | string = {}) {
+import JasRangeTest from '../jas_range_test';
+import JasSpreadsheetTest from '../jas_spreadsheet_test';
+
+export function runTests(params: TestRunnerOptions|string = {}) {
   if (typeof params === 'string') {
     params = {testClassNames: params.split(',')};
   }
@@ -11,7 +12,7 @@ export function runTests(params: TestRunnerOptions | string = {}) {
 }
 
 export function runTestsAndHideSuccesses(
-    params: TestRunnerOptions | string = {}) {
+    params: TestRunnerOptions|string = {}) {
   if (typeof params === 'string') {
     params = {testClassNames: params.split(',')};
   }
@@ -20,7 +21,7 @@ export function runTestsAndHideSuccesses(
   return Logger.getLog();
 }
 
-export function runTestsWithLogs(params: TestRunnerOptions | string = {}) {
+export function runTestsWithLogs(params: TestRunnerOptions|string = {}) {
   if (typeof params === 'string') {
     params = {testClassNames: params.split(',')};
   }
@@ -35,8 +36,7 @@ export default class TestRunner {
     showSuccesses = true,
     testClassNames = undefined,
   }: TestRunnerOptions) {
-
-    let testClasses: Array<new() => JASLib.Test> = [
+    let testClasses: Array<new () => JASLib.Test> = [
       JasRangeTest,
       JasSpreadsheetTest,
     ];

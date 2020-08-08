@@ -1,6 +1,7 @@
-import { JasRange, CellData } from './jas_range';
-import { JasSpreadsheet } from './jas_spreadsheet';
-import { JASLib } from "jas_api"
+import {JASLib} from 'jas_api'
+
+import {CellData, JasRange} from './jas_range';
+import {JasSpreadsheet} from './jas_spreadsheet';
 
 type Range = GoogleAppsScript.Spreadsheet.Range;
 
@@ -64,8 +65,9 @@ export default class JasRangeTest implements JASLib.Test {
       t.it('finds string array', () => {
         defaultRange.setValue(
             ',,apples,bananas\ncarrots  ,,\n\ndragonfruit, edameme');
-        t.expect(new CellData(defaultRange).stringArray()).toEqual(
-            ['apples', 'bananas', 'carrots', 'dragonfruit', 'edameme']);
+        t.expect(new CellData(defaultRange).stringArray()).toEqual([
+          'apples', 'bananas', 'carrots', 'dragonfruit', 'edameme'
+        ]);
       });
 
       t.describe('date', () => {

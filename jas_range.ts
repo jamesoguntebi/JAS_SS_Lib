@@ -6,13 +6,13 @@ export class JasRange {
    * and fixed column.
    */
   static getFixedA1Notation(range: Range): string {
-    new CellData(range); // To assert it is a single cell.
+    new CellData(range);  // To assert it is a single cell.
     const nonFixedA1 = range.getA1Notation();
 
     const sheet = range.getSheet().getName();
     const row = nonFixedA1.match(/[a-zA-Z]+/);
     const column = nonFixedA1.match(/[0-9]+/);
-    
+
     return `'${sheet}'!$${row}$${column}`;
   }
 }
@@ -22,7 +22,7 @@ export class CellData {
 
   constructor(private range: Range) {
     if (range.getHeight() !== 1 || range.getWidth() !== 1) {
-      throw new Error ('CellData is invalid for multi-cell ranges.');
+      throw new Error('CellData is invalid for multi-cell ranges.');
     }
 
     this.data = range.getValue();
@@ -47,7 +47,8 @@ export class CellData {
   }
 
   stringArray(): string[] {
-    return this.isBlank() ? [] :
+    return this.isBlank() ?
+        [] :
         this.string().split(/,|\n/).map(s => s.trim()).filter(s => !!s);
   }
 
@@ -61,6 +62,11 @@ export class CellData {
     return this.data as number;
   }
 
+  numberOptional(): number|undefined {
+    return this.isBlank() ? undefined : this.number();
+  }
+
+
   date(includeTime = false): Date {
     if (this.isBlank() || !CellData.isDateValue(this.data)) {
       throw new Error(`Expected date in cell ${this.getCellString()}`);
@@ -68,7 +74,6 @@ export class CellData {
     const date = this.data as Date;
     if (!includeTime) date.setHours(0, 0, 0, 0);
     return date;
-
   }
 
   private getCellString(): string {
