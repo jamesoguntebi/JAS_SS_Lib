@@ -18,7 +18,7 @@ export default class JasRangeTest implements JASLib.Test {
     t.describe('getFixedA1Notation', () => {
       t.it('adds dollar sign symbol', () => {
         t.expect(JasRange.getFixedA1Notation(sheet.getRange(1, 1)))
-            .toEqual(`'Balance'!$A$1`);
+            .toBe(`'Balance'!$A$1`);
       });
 
       t.it('throws for multi-cell range', () => {
@@ -52,14 +52,13 @@ export default class JasRangeTest implements JASLib.Test {
 
       t.it('handles optional calls', () => {
         defaultRange.clear({contentsOnly: true});
-        t.expect(new CellData(defaultRange).stringOptional())
-            .toEqual(undefined);
+        t.expect(new CellData(defaultRange).stringOptional()).toBeUndefined();
       });
 
       t.it('falls back to default value', () => {
         defaultRange.clear({contentsOnly: true});
-        t.expect(new CellData(defaultRange).string('hi')).toEqual('hi');
-        t.expect(new CellData(defaultRange).number(10)).toEqual(10);
+        t.expect(new CellData(defaultRange).string('hi')).toBe('hi');
+        t.expect(new CellData(defaultRange).number(10)).toBe(10);
       });
 
       t.it('finds string array', () => {

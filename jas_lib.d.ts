@@ -1,6 +1,10 @@
 /// <reference types="google-apps-script" />
+declare module "types" {
+    export type KeysOfType<TObj, TProp, K extends keyof TObj = keyof TObj> = K extends K ? TObj[K] extends TProp ? K : never : never;
+}
 declare module "testing/spy" {
-    export class Spy<TObj, TProp extends keyof TObj> {
+    import { KeysOfType } from "types";
+    export class Spy<TObj, TProp extends KeysOfType<TObj, Function>> {
         private readonly object;
         private readonly property;
         static isSpy(object: unknown): object is {
@@ -28,7 +32,7 @@ declare module "testing/spy" {
         returnValue(retValue: unknown): void;
     }
 }
-declare module "testing/util" {
+declare module "util" {
     export class Util {
         static isPOJO(arg: unknown): arg is Pojo;
         static equals<U>(a: U, b: U): boolean;
@@ -46,6 +50,7 @@ declare module "testing/expectation" {
         readonly not: Expectation<T>;
         readonly notString: string;
         constructor(actual: T, isInverse?: boolean, notSource?: Expectation<T>);
+        toBe(expected: T): void;
         toEqual(expected: T): void;
         toThrow(expectedErrorMessage?: string): void;
         toContain(expectedContents: unknown): void;
@@ -53,6 +58,8 @@ declare module "testing/expectation" {
         toHaveBeenCalledTimes(expected: number): void;
         toHaveBeenCalledLike(spyMatcher: SpyMatcher): void;
         toHaveBeenCalledWith(...expectedArgs: unknown[]): void;
+        toBeNull(): void;
+        toBeDefined(): void;
         toBeUndefined(): void;
         private static augmentAndThrow;
     }
@@ -62,6 +69,7 @@ declare module "testing/expectation" {
     }
 }
 declare module "testing/tester" {
+    import { KeysOfType } from "types";
     import { Expectation, SpyMatcher } from "testing/expectation";
     import { Spy } from "testing/spy";
     export class Tester {
@@ -83,7 +91,7 @@ declare module "testing/tester" {
         it(unitTestName: string, testFn: () => void): void;
         xit(unitTestName: string, testFn: () => void): void;
         expect<T>(actual: T): Expectation<T>;
-        spyOn<TObj, TProp extends keyof TObj>(object: TObj, method: TProp): Spy<TObj, TProp>;
+        spyOn<TObj, TProp extends KeysOfType<TObj, Function>>(object: TObj, method: TProp): Spy<TObj, TProp>;
         matcher(argsMatcher: (args: unknown[]) => boolean): SpyMatcher;
         finish(): TestResult;
         private indent;
@@ -120,7 +128,7 @@ declare module "testing/testrunner" {
         private static getStats;
     }
     export interface Test {
-        name: string;
+        readonly name: string;
         run: (t: Tester) => void;
     }
     export interface TestRunnerOptions {
@@ -167,7 +175,8 @@ declare module "apihelper" {
     export { Spy } from "testing/spy";
     export { Tester } from "testing/tester";
     export { Test, TestRunner, TestRunnerOptions } from "testing/testrunner";
-    export { Util } from "testing/util";
+    export { Util } from "util";
+    export * from "types";
     export * from "testing/fakes";
 }
 declare module "jas_api" {
@@ -202,6 +211,8 @@ declare module "testing/expectation_test" {
     import SimpleTest from "testing/_simple_test";
     export default class ExpectationTest extends SimpleTest {
         private createSpy;
+        testToBe(): void;
+        testNotToBe(): void;
         testToEqual(): void;
         testNotToEqual(): void;
         testToThrow(): void;
@@ -216,6 +227,10 @@ declare module "testing/expectation_test" {
         testNotToHaveBeenCalledLike(): void;
         testToHaveBeenCalledWith(): void;
         testNotToHaveBeenCalledWith(): void;
+        testToBeNull(): void;
+        testNotToBeNull(): void;
+        testToBeDefined(): void;
+        testNotToBeDefined(): void;
         testToBeUndefined(): void;
         testNotToBeUndefined(): void;
     }
