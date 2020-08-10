@@ -5,8 +5,6 @@ import {JasSpreadsheet} from './jas_spreadsheet';
 type Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
 export default class JasSpreadsheetTest implements JASLib.Test {
-  readonly name = 'JasSpreadsheetTest';
-
   /** This is the Lease Spreadsheet Template. */
   private readonly spreadsheetId =
       '1e-xDkyts6jt_2JPGS5i1hX4opVJ9niQ9f0y8YtAvTlw';

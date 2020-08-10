@@ -6,8 +6,6 @@ import {JasSpreadsheet} from './jas_spreadsheet';
 type Range = GoogleAppsScript.Spreadsheet.Range;
 
 export default class JasRangeTest implements JASLib.Test {
-  readonly name = 'JasRangeTest';
-
   /** This is the Lease Spreadsheet Template. */
   private readonly spreadsheetId =
       '1e-xDkyts6jt_2JPGS5i1hX4opVJ9niQ9f0y8YtAvTlw';
