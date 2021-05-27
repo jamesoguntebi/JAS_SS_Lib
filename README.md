@@ -64,13 +64,13 @@ $ clasp run 'runTests' -p '[{"testClassNames": ["UtilTest", "FooTest"]}]'
 ## Updates
 
 ```
-$ rm jas_lib.* && tsc
+$ rm ss_lib.* && tsc
 $ clasp version
 ```
 
 1. All client scripts need to either update to the latest library version or have development mode on.
 
-2. Client script codebases need to copy in the latest `jas_lib.d.ts` for type declarations.
+2. Client script codebases need to copy in the latest `ss_lib.d.ts` for type declarations.
 
 ## Misc
 
