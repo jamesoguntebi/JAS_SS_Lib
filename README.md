@@ -40,6 +40,27 @@ export class SomeTest implements JASLib.Test {
   ...
 ```
 
+## Running Tests
+
+- See [`clasp run` docs](https://github.com/google/clasp/#run)
+- See [testrunner.ts](https://github.com/jamesoguntebi/JAS_SS_Lib/blob/master/testing/testrunner.ts)
+
+```
+$ clasp run 'runTests'
+```
+
+- Run an individual file:
+
+```
+$ clasp run 'runTests' -p '["JasSpreadsheetTest"]'
+```
+
+Run multiple tests, but not all tests, at once.
+
+```
+$ clasp run 'runTests' -p '[{"testClassNames": ["UtilTest", "FooTest"]}]'
+```
+
 ## Updates
 
 ```
@@ -50,3 +71,11 @@ $ clasp version
 1. All client scripts need to either update to the latest library version or have development mode on.
 
 2. Client script codebases need to copy in the latest `jas_lib.d.ts` for type declarations.
+
+## Misc
+
+- On Chrome OS in linux terminal, `clasp login` cannot find the port. Use `clasp login --no-localhost`
+
+- Error: `Error retrieving access token: Error: invalid_grant`
+
+    > $ clasp login --creds creds.json

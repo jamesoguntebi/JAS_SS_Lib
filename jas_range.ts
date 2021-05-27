@@ -19,17 +19,44 @@ export class JasRange {
 
 export class CellData {
   private readonly data: unknown;
+  private readonly cellString: string;
+  private readonly cellIsBlank: boolean;
 
-  constructor(private range: Range) {
-    if (range.getHeight() !== 1 || range.getWidth() !== 1) {
-      throw new Error('CellData is invalid for multi-cell ranges.');
+  /**
+   * @param rangeOrValue A range instance or a value retrieved from
+   *     sheet.getSheetValues() or range.getValue()
+   * @param cellString A description of the cell to use in error messages.
+   */
+  constructor(rangeOrValue: Range|any, cellString?: string) {
+    if (rangeOrValue && rangeOrValue.getSheet && rangeOrValue.getValue) {
+      const range = rangeOrValue as Range;
+      if (range.getHeight() !== 1 || range.getWidth() !== 1) {
+        throw new Error('CellData is invalid for multi-cell ranges.');
+      }
+
+      this.data = range.getValue();
+      this.cellString =
+          `${range.getSheet().getName()}!${range.getA1Notation()}`;
+      this.cellIsBlank = range.isBlank();
+    } else {
+      if (!cellString) {
+        throw new Error(
+            'cellString required when creating CellData without Range');
+      }
+
+      this.data = rangeOrValue;
+      this.cellString = cellString;
+      this.cellIsBlank =
+          this.data === '' || this.data === null || this.data === undefined;
     }
-
-    this.data = range.getValue();
   }
 
   isBlank(): boolean {
-    return this.range.isBlank();
+    return this.cellIsBlank;
+  }
+
+  untypedData(): unknown {
+    return this.data;
   }
 
   string(defaultValue?: string): string {
@@ -37,7 +64,7 @@ export class CellData {
       return defaultValue;
     }
     if (this.isBlank() || typeof this.data !== 'string') {
-      throw new Error(`Expected string in cell ${this.getCellString()}`);
+      throw new Error(`Expected string in cell ${this.cellString}`);
     }
     return this.data as string;
   }
@@ -57,7 +84,7 @@ export class CellData {
       return defaultValue;
     }
     if (this.isBlank() || typeof this.data !== 'number') {
-      throw new Error(`Expected number in cell ${this.getCellString()}`);
+      throw new Error(`Expected number in cell ${this.cellString}`);
     }
     return this.data as number;
   }
@@ -69,15 +96,11 @@ export class CellData {
 
   date(includeTime = false): Date {
     if (this.isBlank() || !CellData.isDateValue(this.data)) {
-      throw new Error(`Expected date in cell ${this.getCellString()}`);
+      throw new Error(`Expected date in cell ${this.cellString}`);
     }
     const date = this.data as Date;
     if (!includeTime) date.setHours(0, 0, 0, 0);
     return date;
-  }
-
-  private getCellString(): string {
-    return `${this.range.getSheet().getName()}!${this.range.getA1Notation()}`;
   }
 
   private static isDateValue(value: any): boolean {

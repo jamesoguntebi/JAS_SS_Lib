@@ -1,6 +1,8 @@
-import {JASLib} from 'jas_api'
+import {JASLib} from 'jas_api';
 
 import {JasSpreadsheet} from './jas_spreadsheet';
+
+
 
 type Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 
@@ -47,6 +49,23 @@ export default class JasSpreadsheetTest implements JASLib.Test {
       });
     });
 
+    t.describe('createSheetCache', () => {
+      t.it('works', () => {
+        const sheetCache =
+            JasSpreadsheet.createSheetCache(findSheet('balance'));
+        t.expect(sheetCache.data.length > 0).toBe(true);
+        t.expect(sheetCache.data[0].length > 0).toBe(true);
+        t.expect(sheetCache.headerRow).toBe(1);
+      });
+
+      t.it('caches windows', () => {
+        const sheetCache =
+            JasSpreadsheet.createSheetCache(findSheet('balance'), 2, 2, 4, 6);
+        t.expect(sheetCache.data.length).toBe(4);
+        t.expect(sheetCache.data[0].length).toBe(6);
+      });
+    });
+
     t.describe('findColumn', () => {
       const sheet = findSheet('balance');
 
@@ -68,6 +87,33 @@ export default class JasSpreadsheetTest implements JASLib.Test {
 
       t.it('throws for ambiguous column', () => {
         t.expect(() => JasSpreadsheet.findColumn('d', sheet))
+            .toThrow('multiple columns');
+      });
+    });
+
+    t.describe('findColumnInCache', () => {
+      const cache = JasSpreadsheet.createSheetCache(findSheet('balance'));
+
+      t.it('finds present column', () => {
+        t.expect(() => JasSpreadsheet.findColumnInCache('description', cache))
+            .not.toThrow();
+      });
+
+      t.it('does fuzzy matching, ignoring case', () => {
+        t.expect(() => JasSpreadsheet.findColumnInCache('DESCR', cache))
+            .not.toThrow();
+        t.expect(() => JasSpreadsheet.findColumnInCache('TRANSACT', cache))
+            .not.toThrow();
+      });
+
+      t.it('throws for absent column', () => {
+        t.expect(
+             () => JasSpreadsheet.findColumnInCache('no such column', cache))
+            .toThrow('Expected a column');
+      });
+
+      t.it('throws for ambiguous column', () => {
+        t.expect(() => JasSpreadsheet.findColumnInCache('d', cache))
             .toThrow('multiple columns');
       });
     });
@@ -94,6 +140,32 @@ export default class JasSpreadsheetTest implements JASLib.Test {
 
       t.it('throws for ambiguous row', () => {
         t.expect(() => JasSpreadsheet.findRow('customer', sheet))
+            .toThrow('multiple rows');
+      });
+    });
+
+    t.describe('findRowInCache', () => {
+      const cache = JasSpreadsheet.createSheetCache(findSheet('config'));
+
+      t.it('finds present row', () => {
+        t.expect(() => JasSpreadsheet.findRowInCache('interest rate', cache))
+            .not.toThrow();
+      });
+
+      t.it('does fuzzy matching, ignoring case', () => {
+        t.expect(() => JasSpreadsheet.findRowInCache('PAYMENT T', cache))
+            .not.toThrow();
+        t.expect(() => JasSpreadsheet.findRowInCache('EMAIL DIS', cache))
+            .not.toThrow();
+      });
+
+      t.it('throws for absent row', () => {
+        t.expect(() => JasSpreadsheet.findRowInCache('no such row', cache))
+            .toThrow('Expected a row');
+      });
+
+      t.it('throws for ambiguous row', () => {
+        t.expect(() => JasSpreadsheet.findRowInCache('customer', cache))
             .toThrow('multiple rows');
       });
     });

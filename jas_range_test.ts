@@ -1,7 +1,9 @@
-import {JASLib} from 'jas_api'
+import {JASLib} from 'jas_api';
 
 import {CellData, JasRange} from './jas_range';
 import {JasSpreadsheet} from './jas_spreadsheet';
+
+
 
 type Range = GoogleAppsScript.Spreadsheet.Range;
 
@@ -65,6 +67,24 @@ export default class JasRangeTest implements JASLib.Test {
         t.expect(new CellData(defaultRange).stringArray()).toEqual([
           'apples', 'bananas', 'carrots', 'dragonfruit', 'edameme'
         ]);
+      });
+
+      t.describe('created from non-range values', () => {
+        t.it('throws when no cellString is passed', () => {
+          const nonRangeValue = 'cellValue';
+          t.expect(() => new CellData(nonRangeValue))
+              .toThrow('cellString required');
+        });
+
+        t.it('detects blank cells', () => {
+          t.expect(new CellData('', 'A1').isBlank()).toBe(true);
+          t.expect(new CellData(null, 'A1').isBlank()).toBe(true);
+          t.expect(new CellData(undefined, 'A1').isBlank()).toBe(true);
+
+          t.expect(new CellData(' ', 'A1').isBlank()).toBe(false);
+          t.expect(new CellData(0, 'A1').isBlank()).toBe(false);
+          t.expect(new CellData(new Date(0), 'A1').isBlank()).toBe(false);
+        });
       });
 
       t.describe('date', () => {
