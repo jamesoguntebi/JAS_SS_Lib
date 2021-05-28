@@ -64,7 +64,7 @@ $ clasp run 'runTests' -p '[{"testClassNames": ["UtilTest", "FooTest"]}]'
 ## Updates
 
 ```
-$ rm ss_lib.* && tsc
+$ rm ss_lib.* && tsc # or maybe `npx tsc`
 $ clasp version
 ```
 
